@@ -1,0 +1,45 @@
+{
+  "_readme": "Real work rendered on work.html. best_campaigns = reels (type video: poster still + tap-to-play so the heavy files load only on demand). best_social_assets = photos. Edit titles/results freely — they're my descriptors, not your official campaign names/metrics. Video src is URL-encoded (%20 for spaces).",
+  "best_campaigns": [
+    {
+      "type": "video",
+      "title": "Whiskey Hill",
+      "result": "Brand film",
+      "src": "portfolio/homepage/best_campaigns/SAMPLE%20-%20WhiskeyHill1.mp4",
+      "poster": "portfolio/homepage/best_campaigns/whiskeyhill-poster.jpg"
+    },
+    {
+      "type": "video",
+      "title": "Fire Water BBQ",
+      "result": "Social reel",
+      "src": "portfolio/homepage/best_campaigns/SAMPLE%20-%20FireWaterBBQ1.mp4",
+      "poster": "portfolio/homepage/best_campaigns/firewaterbbq-poster.jpg"
+    },
+    {
+      "type": "video",
+      "title": "Queen Bee Pasta",
+      "result": "Menu film",
+      "src": "portfolio/homepage/best_campaigns/queenbeepasta.mp4",
+      "poster": "portfolio/homepage/best_campaigns/queenbeepasta-poster.jpg"
+    },
+    {
+      "type": "video",
+      "title": "Summer Heat",
+      "result": "Campaign reel",
+      "src": "portfolio/homepage/best_campaigns/summerheat.mp4",
+      "poster": "portfolio/homepage/best_campaigns/summerheat-poster.jpg"
+    }
+  ],
+  "best_social_assets": [
+    {
+      "title": "Bacon & Egg Stack",
+      "result": "Food photography",
+      "src": "portfolio/homepage/best_social_assets/_GTS3656.jpg"
+    },
+    {
+      "title": "Loaded Alfredo",
+      "result": "Food photography",
+      "src": "portfolio/homepage/best_social_assets/_GTS3615.jpg"
+    }
+  ]
+}

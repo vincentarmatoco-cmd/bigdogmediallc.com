@@ -1,0 +1,381 @@
+/* ═══════════════════════════════════════════════════════════
+   BIG DOG MEDIA — main.js · v4 (cinematic)
+   No libraries. One motion system, transform/opacity only,
+   easing cubic-bezier(0.22,1,0.36,1), IntersectionObserver triggers.
+     · scroll-scrub canvas hero
+     · reveals + stagger
+     · navbar blur on scroll
+     · subtle parallax
+     · counters, mailto form, portfolio manifest loader
+   Without JS the site stays readable (reveal-hiding is under html.js).
+   ═══════════════════════════════════════════════════════════ */
+
+(() => {
+  'use strict';
+
+  document.documentElement.classList.add('js');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasIO = 'IntersectionObserver' in window;
+
+  /* ───────── Reveals + stagger ───────── */
+  const revealables = document.querySelectorAll('[data-reveal], [data-stagger]');
+  if (prefersReduced || !hasIO) {
+    revealables.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -10% 0px' });
+    revealables.forEach(el => io.observe(el));
+  }
+
+  /* ───────── Navbar blur on scroll ───────── */
+  const nav = document.querySelector('.nav');
+  if (nav) {
+    let navTick = false;
+    const onNav = () => {
+      nav.classList.toggle('nav--scrolled', window.scrollY > 8);
+      navTick = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!navTick) { navTick = true; requestAnimationFrame(onNav); }
+    }, { passive: true });
+    onNav();
+  }
+
+  /* ───────── Subtle parallax ───────── */
+  const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+  if (parallaxEls.length && !prefersReduced) {
+    let pTick = false;
+    const onParallax = () => {
+      const vh = window.innerHeight;
+      parallaxEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > vh) return;
+        const strength = parseFloat(el.dataset.parallax) || 0.1;
+        // -1 (below) → 1 (above) across the viewport
+        const rel = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
+        el.style.transform = `translate3d(0, ${(-rel * strength * 100).toFixed(1)}px, 0) scale(1.06)`;
+      });
+      pTick = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!pTick) { pTick = true; requestAnimationFrame(onParallax); }
+    }, { passive: true });
+    window.addEventListener('resize', onParallax);
+    onParallax();
+  }
+
+  /* ───────── Cinematic scroll-scrub hero ─────────
+     Scroll position → sequence progress (0–1), rendered on a sticky canvas.
+     Light interpolation (currentProgress toward target) gives a buttery scrub
+     with no video-decode stutter.
+
+     TO USE A REAL REEL INSTEAD:
+       1. Add <video data-cine-video muted playsinline preload="auto"
+             src="assets/videos/reel.mp4"> inside .cine__stage (replace canvas).
+       2. Replace render(p) below with:  video.currentTime = p * video.duration;
+       3. Keep the same progress()/rAF loop — scrubbing logic is identical. */
+  const cine = document.querySelector('[data-cine]');
+  const canvas = cine && cine.querySelector('[data-cine-canvas]');
+  if (cine && canvas && canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    const fill = cine.querySelector('[data-cine-fill]');
+    const hint = cine.querySelector('[data-cine-hint]');
+
+    const beats = [
+      { at: 0.10, sub: 'VIDEO · SOCIAL · PAID', lines: [{ t: 'BIG DOG' }, { t: 'MEDIA' }] },
+      { at: 0.46, lines: [{ t: 'WE MAKE' }, { t: 'BRANDS' }] },
+      { at: 0.82, lines: [{ t: 'IMPOSSIBLE' }, { t: 'TO IGNORE.', gold: true }] }
+    ];
+
+    let W = 0, H = 0, dpr = 1;
+    let target = 0, current = 0, running = false, visible = false, fontsReady = false;
+
+    // Pre-rendered grain tile (drawn once, stamped cheaply each frame)
+    const grain = document.createElement('canvas');
+    grain.width = grain.height = 140;
+    const gctx = grain.getContext('2d');
+    const gimg = gctx.createImageData(140, 140);
+    for (let i = 0; i < gimg.data.length; i += 4) {
+      const v = 235 + Math.random() * 20;
+      gimg.data[i] = gimg.data[i + 1] = gimg.data[i + 2] = v;
+      gimg.data[i + 3] = Math.random() * 26;
+    }
+    gctx.putImageData(gimg, 0, 0);
+    const grainPattern = ctx.createPattern(grain, 'repeat');
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth;
+      H = canvas.clientHeight;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      render(current);
+    }
+
+    function smooth(x) { return x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x); }
+
+    function drawText(beat, alpha, offY) {
+      const cx = W / 2;
+      const mainSize = Math.min(W * 0.13, 148);
+      const lh = mainSize * 0.9;
+      const lines = beat.lines;
+      const totalH = lh * lines.length;
+      let y = H / 2 - totalH / 2 + lh / 2 + offY;
+
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      if (beat.sub) {
+        ctx.font = `600 ${Math.min(W * 0.021, 20)}px 'Archivo', sans-serif`;
+        ctx.fillStyle = '#8F8B83';
+        ctx.save();
+        // letterspaced sub — approximate with manual tracking
+        const sub = beat.sub;
+        ctx.globalAlpha = alpha;
+        ctx.fillText(sub.split('').join('  '), cx, y - lh * 0.85);
+        ctx.restore();
+      }
+
+      ctx.font = `900 ${mainSize}px 'Archivo', sans-serif`;
+      lines.forEach(line => {
+        ctx.fillStyle = line.gold ? '#CF9A4A' : '#F4F1EA';
+        ctx.fillText(line.t, cx, y);
+        y += lh;
+      });
+      ctx.restore();
+    }
+
+    function render(p) {
+      if (!W || !H) return;
+      // Ink field
+      ctx.fillStyle = '#0A0A0A';
+      ctx.fillRect(0, 0, W, H);
+
+      // Vignette
+      const vg = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.2, W / 2, H / 2, Math.max(W, H) * 0.75);
+      vg.addColorStop(0, 'rgba(20,19,16,0)');
+      vg.addColorStop(1, 'rgba(0,0,0,0.55)');
+      ctx.fillStyle = vg;
+      ctx.fillRect(0, 0, W, H);
+
+      // Type beats (crossfade by proximity)
+      if (fontsReady) {
+        beats.forEach(beat => {
+          const a = smooth(1 - Math.abs(p - beat.at) / 0.26);
+          if (a > 0.01) drawText(beat, a, (p - beat.at) * -120);
+        });
+      }
+
+      // Grain
+      if (grainPattern && !prefersReduced) {
+        ctx.save();
+        ctx.globalAlpha = 0.5;
+        ctx.translate((Math.random() * 140) | 0, (Math.random() * 140) | 0);
+        ctx.fillStyle = grainPattern;
+        ctx.fillRect(-140, -140, W + 280, H + 280);
+        ctx.restore();
+      }
+
+      if (fill) fill.style.transform = `scaleX(${p.toFixed(4)})`;
+      if (hint) hint.style.opacity = String(Math.max(0, 1 - p / 0.05));
+    }
+
+    function progress() {
+      const total = cine.offsetHeight - window.innerHeight;
+      if (total <= 0) return 0;
+      const p = -cine.getBoundingClientRect().top / total;
+      return p < 0 ? 0 : p > 1 ? 1 : p;
+    }
+
+    function loop() {
+      if (!running) return;
+      if (prefersReduced) {
+        current = target;
+      } else {
+        current += (target - current) * 0.12;
+        if (Math.abs(target - current) < 0.0005) current = target;
+      }
+      render(current);
+      if (!prefersReduced && Math.abs(target - current) >= 0.0005) {
+        requestAnimationFrame(loop);
+      } else {
+        running = false;
+      }
+    }
+    function kick() {
+      target = progress();
+      if (!running && visible) { running = true; requestAnimationFrame(loop); }
+    }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', resize);
+
+    if (hasIO) {
+      new IntersectionObserver(entries => {
+        visible = entries[0].isIntersecting;
+        if (visible) kick();
+      }, { rootMargin: '10% 0px' }).observe(cine);
+    } else {
+      visible = true;
+    }
+
+    resize();
+    target = current = progress();
+    render(current);
+    const markReady = () => { fontsReady = true; render(current); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(markReady);
+    else markReady();
+  }
+
+  /* ───────── Counters ───────── */
+  const counters = document.querySelectorAll('[data-count]');
+  if (!prefersReduced && hasIO && counters.length) {
+    const cio = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        cio.unobserve(entry.target);
+        const el = entry.target;
+        const targetV = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        const t0 = performance.now();
+        (function tick(t) {
+          const p = Math.min((t - t0) / 1400, 1);
+          el.textContent = Math.round(targetV * (1 - Math.pow(1 - p, 3))) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        })(t0);
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(el => cio.observe(el));
+  }
+
+  /* ───────── Contact form ─────────
+     Submits to Web3Forms (no server needed) and emails the inquiry to us.
+     If the access key hasn't been set yet, it falls back to opening the
+     visitor's email client so a submission is never silently lost. */
+  const form = document.getElementById('contactForm');
+  if (form) {
+    const status = document.getElementById('formStatus');
+    const EMAIL = 'vincentarmato.co@gmail.com';
+
+    const mailtoFallback = (name, biz, budget, msg) => {
+      const body = encodeURIComponent(`Name: ${name}\nBusiness: ${biz}\nBudget: ${budget}\n\n${msg}`);
+      window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent('Project inquiry — ' + biz)}&body=${body}`;
+      status.textContent = 'Opening your email client — talk soon.';
+    };
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const name = (data.get('name') || '').toString().trim();
+      const biz = (data.get('business') || '').toString().trim();
+      const msg = (data.get('message') || '').toString().trim();
+      const budget = (data.get('budget') || '').toString();
+      if (!name || !biz || !msg) {
+        status.textContent = 'Fill in every field. Big dogs finish the job.';
+        return;
+      }
+
+      const key = (data.get('access_key') || '').toString().trim();
+      if (!key || key.startsWith('YOUR_')) {
+        mailtoFallback(name, biz, budget, msg);
+        return;
+      }
+
+      data.set('subject', 'Project inquiry — ' + biz);
+      const btn = form.querySelector('button[type="submit"]');
+      const label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      status.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data
+        });
+        const out = await res.json().catch(() => ({}));
+        if (res.ok && out.success) {
+          status.textContent = "Got it — we'll reply within a day.";
+          form.reset();
+        } else {
+          status.textContent = (out && out.message) ? out.message
+            : `Something went wrong. Email us directly at ${EMAIL}.`;
+        }
+      } catch (err) {
+        status.textContent = `Network hiccup — email us directly at ${EMAIL}.`;
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = label; }
+      }
+    });
+  }
+
+  /* ───────── Portfolio manifest loader (work page) ─────────
+     Reels render as vertical poster cards; the heavy MP4 loads only when
+     tapped (preload none), then plays with sound + controls. Photos render
+     as images. Relative paths survive GitHub Pages sub-path hosting. */
+  const tierGrids = document.querySelectorAll('[data-tier-grid]');
+  const esc = s => String(s || '').replace(/"/g, '&quot;');
+  const isVideo = item => item.type === 'video' || /\.(mp4|webm|mov)(\?|$)/i.test(item.src || '');
+  function renderManifest(man) {
+    if (!man) return;
+    tierGrids.forEach(grid => {
+      const items = man[grid.dataset.tierGrid];
+      if (!Array.isArray(items) || !items.length) return;
+      grid.innerHTML = items.map(item => {
+            const vid = isVideo(item);
+            const media = vid
+              ? `<button class="tile__play" type="button" aria-label="Play ${esc(item.title) || 'reel'}" data-video="${esc(item.src)}">
+                   ${item.poster ? `<img loading="lazy" decoding="async" src="${esc(item.poster)}" alt="${esc(item.title) || 'Reel'}">` : ''}
+                   <span class="tile__playbtn" aria-hidden="true"></span>
+                 </button>`
+              : (item.src
+                  ? `<img loading="lazy" decoding="async" src="${esc(item.src)}" alt="${esc(item.title) || 'Portfolio piece'}">`
+                  : `<span class="meta">${esc(item.label) || 'Reel / case film'}</span>`);
+            return `<article class="tile${vid ? ' tile--reel' : ''}">
+              <div class="tile__media">${media}</div>
+              <div class="tile__body">
+                <span class="tile__client">${esc(item.title)}</span>
+                <span class="tile__metric">${esc(item.result)}</span>
+              </div>
+            </article>`;
+      }).join('');
+    });
+  }
+
+  if (tierGrids.length) {
+    // Embedded manifest (self-contained builds) wins; else fetch the file.
+    if (window.__PORTFOLIO_MANIFEST__) renderManifest(window.__PORTFOLIO_MANIFEST__);
+    else if (window.fetch) {
+      fetch('portfolio/manifest.json')
+        .then(r => (r.ok ? r.json() : null))
+        .then(renderManifest)
+        .catch(() => { /* no manifest yet — placeholder tiles stay */ });
+    }
+
+    // Tap a reel poster → swap in the real video and play it
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.tile__play');
+      if (!btn || !btn.dataset.video) return;
+      const v = document.createElement('video');
+      v.className = 'tile__video';
+      v.src = btn.dataset.video;
+      v.controls = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      v.setAttribute('playsinline', '');
+      v.preload = 'auto';
+      btn.replaceWith(v);
+      const p = v.play();
+      if (p && p.catch) p.catch(() => {});
+    });
+  }
+
+})();

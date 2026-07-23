@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Dog Media — We Make Brands Impossible to Ignore</title>
+  <meta name="description" content="Big Dog Media is a video production and social advertising studio. Game Day capture, Media Day production, and content engines that stop the scroll.">
+  <meta name="theme-color" content="#0A0A0A">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Big Dog Media — We Make Brands Impossible to Ignore">
+  <meta property="og:description" content="Video production and social advertising. Game Day, Media Day, and content engines that stop the scroll.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,800;0,900;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230A0A0A'/><text x='50' y='46' font-size='30' font-weight='900' text-anchor='middle' fill='%23F4F1EA' font-family='Arial Black'>BIG</text><text x='50' y='78' font-size='30' font-weight='900' text-anchor='middle' fill='%23F4F1EA' font-family='Arial Black'>DOG</text></svg>">
+</head>
+<body>
+
+  <header class="nav">
+    <a href="index.html" class="nav__mark" aria-label="Big Dog Media — home">
+      <span class="stack">Big&nbsp;Dog</span>
+      <span class="media">Media</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="work.html" class="nav__link">Work</a>
+      <a href="services.html" class="nav__link">Services</a>
+      <a href="about.html" class="nav__link">About</a>
+      <a href="contact.html" class="btn btn--bone nav__cta">Start a project</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ══════════ CINEMATIC SCROLL-SCRUB HERO ══════════
+         Scroll drives a designed canvas sequence frame-by-frame (sticky stage).
+         To use a real reel instead: drop a muted MP4 in assets/videos/, swap the
+         <canvas> for <video data-cine-video muted playsinline preload="auto">, and
+         in js/main.js set video.currentTime = progress * video.duration (block noted there). -->
+    <section class="cine" data-cine id="hero">
+      <div class="cine__stage">
+        <canvas class="cine__canvas" data-cine-canvas></canvas>
+        <div class="cine__ui">
+          <p class="eyebrow">Video &amp; social advertising studio</p>
+          <span class="cine__hint" data-cine-hint>Scroll to roll the reel</span>
+        </div>
+        <div class="cine__scrub" aria-hidden="true"><div class="cine__scrub-fill" data-cine-fill></div></div>
+        <h1 class="cine__seo">Big Dog Media — we make brands impossible to ignore.</h1>
+        <noscript>
+          <div class="cine__noscript">
+            <h1 class="display">We make brands impossible to <span style="color:var(--gold)">ignore.</span></h1>
+          </div>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- ══════════ SCENE · statement (bone) ══════════ -->
+    <section class="sec--bone scene">
+      <div class="wrap" data-reveal>
+        <p class="eyebrow">What we do</p>
+        <h2 class="scene__idea">We make the work people <span class="accent">can't scroll past.</span></h2>
+        <p class="scene__note">Launch films, ad creative, and content engines — one team, concept to campaign, built for the feed instead of adapted to it.</p>
+        <p class="scene__cta"><a href="work.html" class="textlink">See the proof</a></p>
+      </div>
+    </section>
+
+    <!-- ══════════ SCENE · thesis (ink) ══════════ -->
+    <section class="sec--ink scene">
+      <div class="wrap" data-reveal>
+        <p class="scene__editorial">Attention is the only currency that matters. <em>Video is how you earn it.</em></p>
+      </div>
+    </section>
+
+    <!-- ══════════ WORK SCENE · Food films ══════════ -->
+    <section class="workscene" id="films">
+      <div class="workscene__media" data-parallax="0.12">
+        <img src="portfolio/homepage/best_social_assets/_GTS3656.jpg" alt="Food film still — Big Dog Media" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="workscene__scrim"></div>
+      <div class="workscene__inner" data-stagger>
+        <p class="eyebrow">01 — Food films</p>
+        <h2 class="workscene__title">Make it move</h2>
+        <p class="workscene__desc">Menu films and brand reels that turn a plate into a craving — shot, cut, and handed back as social that fills the next table.</p>
+        <ul class="workscene__stats">
+          <li><strong>Same-day</strong><span>Shoot to social</span></li>
+          <li><strong>Sound on</strong><span>Built for the feed</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════ WORK SCENE · Food photography ══════════ -->
+    <section class="workscene" id="stills">
+      <div class="workscene__media" data-parallax="0.12">
+        <img src="portfolio/homepage/best_social_assets/_GTS3615.jpg" alt="Food photography — Big Dog Media" loading="lazy" onerror="this.style.display='none'">
+      </div>
+      <div class="workscene__scrim"></div>
+      <div class="workscene__inner" data-stagger>
+        <p class="eyebrow">02 — Food photography</p>
+        <h2 class="workscene__title">Plated to post</h2>
+        <p class="workscene__desc">Studio-grade stills where the dish is the whole ad — lit, styled, and framed to be saved, shared, and ordered.</p>
+        <ul class="workscene__stats">
+          <li><strong>Menu-ready</strong><span>Web, print &amp; social</span></li>
+          <li><strong>Craving-first</strong><span>Every frame</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════ SCENE · proof (ink) ══════════ -->
+    <section class="sec--ink scene">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <p class="eyebrow">Big claims. Backed up.</p>
+          <h2 class="sec-title">The numbers behind the noise</h2>
+        </div>
+        <ul class="stats" data-stagger>
+          <li><strong data-count="120" data-suffix="M+">120M+</strong><span>Organic views generated</span></li>
+          <li><strong data-count="40" data-suffix="+">40+</strong><span>Brands scaled</span></li>
+          <li><strong data-count="6" data-suffix="x">6x</strong><span>Average return on ad spend</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════ CTA (the one gold field) ══════════ -->
+    <section class="sec sec--gold">
+      <div class="wrap promo">
+        <h2 class="sec-title" data-reveal>Stop the scroll.<br>Start the talk.</h2>
+        <p data-reveal>Tell us where you're headed. We reply within a day.</p>
+        <a href="contact.html" class="btn btn--ink" data-reveal>Book a call</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <a href="index.html" class="lockup" aria-label="Big Dog Media">
+        <span class="stack">Big<br>Dog</span>
+        <span class="media">Media</span>
+      </a>
+      <div class="footer__grid">
+        <div class="footer__col">
+          <span class="meta">Contact</span>
+          <a href="mailto:vincentarmato.co@gmail.com">vincentarmato.co@gmail.com</a>
+          <a href="tel:+16303382172">630-338-2172</a>
+          <a href="https://instagram.com/bigdogmedia" target="_blank" rel="noopener">@bigdogmedia</a>
+        </div>
+        <div class="footer__col">
+          <span class="meta">Site</span>
+          <a href="work.html">Work</a>
+          <a href="services.html">Services</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>© 2026 Big Dog Media LLC</span>
+        <span>We make brands impossible to ignore.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
