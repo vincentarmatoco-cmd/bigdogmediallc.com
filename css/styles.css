@@ -27,7 +27,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 
 body {
   background: var(--ink);
@@ -428,6 +428,72 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .claims li span { color: var(--stone); }
 
+/* ═══════════ TESTIMONIALS ═══════════ */
+.quotes {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(18px, 2.5vw, 28px);
+}
+.quote {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(22px, 3vw, 32px);
+  padding: clamp(28px, 3vw, 42px);
+  border: 1px solid var(--line-dark);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.sec--bone .quote { border-color: var(--line-light); }
+/* Oversized opening quote as a faint watermark (keeps gold to the eyebrow only) */
+.quote::before {
+  content: '\201C';
+  position: absolute;
+  top: clamp(4px, 1vw, 12px);
+  right: clamp(14px, 2vw, 26px);
+  font-family: var(--font-serif);
+  font-size: clamp(90px, 9vw, 130px);
+  line-height: 1;
+  color: var(--bone);
+  opacity: 0.07;
+  pointer-events: none;
+}
+.sec--bone .quote::before { color: var(--body); opacity: 0.09; }
+.quote__text {
+  position: relative;
+  font-family: var(--font-serif);
+  font-size: clamp(19px, 1.6vw, 25px);
+  line-height: 1.3;
+  color: var(--bone);
+  text-wrap: pretty;
+}
+.sec--bone .quote__text { color: var(--body); }
+.quote__by {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: clamp(4px, 1vw, 10px);
+}
+.quote__name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--bone);
+}
+.sec--bone .quote__name { color: var(--ink); }
+.quote__role {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
 /* ═══════════ GOLD PROMO / CTA BLOCK ═══════════ */
 .promo {
   text-align: center;
@@ -545,31 +611,74 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .contact-direct a:hover { color: var(--gold); }
 
+/* ═══════════ FORM CONSENT LINE ═══════════ */
+.form__consent { font-size: 13px; color: var(--stone); max-width: 62ch; margin-top: -14px; }
+.form__consent a { color: var(--gold); text-decoration: underline; text-underline-offset: 2px; }
+.form__consent a:hover { color: var(--bone); }
+
+/* ═══════════ LEGAL / PROSE PAGES ═══════════ */
+.prose { max-width: 74ch; }
+.prose > * + * { margin-top: 1.15em; }
+.prose h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(19px, 2.2vw, 28px);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin-top: 2.2em;
+  color: var(--ink);
+}
+.sec--ink .prose h2 { color: var(--bone); }
+.prose h2:first-child { margin-top: 0; }
+.prose p, .prose li { color: var(--body); }
+.sec--ink .prose p, .sec--ink .prose li { color: var(--stone); }
+.prose a { color: var(--gold-ink); text-decoration: underline; text-underline-offset: 3px; }
+.sec--ink .prose a { color: var(--gold); }
+.prose ul { list-style: none; display: flex; flex-direction: column; gap: 8px; padding-left: 0; }
+.prose li::before { content: '— '; color: var(--gold-ink); }
+.sec--ink .prose li::before { color: var(--gold); }
+
 /* ═══════════ FOOTER ═══════════ */
 .footer {
   background: var(--ink);
   color: var(--bone);
   border-top: 1px solid var(--line-dark);
-  padding: clamp(48px, 8vw, 90px) var(--pad-x) 32px;
+  padding: clamp(56px, 8vw, 100px) var(--pad-x) 30px;
 }
 .footer .wrap {
   max-width: var(--max-w);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: clamp(36px, 5vw, 56px);
+  gap: clamp(44px, 6vw, 72px);
+}
+/* Top: brand block on the left, aligned nav columns on the right */
+.footer__top {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.footer__brand { display: flex; flex-direction: column; gap: 24px; }
+.footer__tag {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.15;
+  color: var(--bone);
+  max-width: 20ch;
 }
 .lockup {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 12px;
   width: fit-content;
 }
 .lockup .stack {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(44px, 6vw, 76px);
+  font-size: clamp(48px, 6vw, 84px);
   line-height: 0.82;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -591,26 +700,51 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   width: 34px; height: 2px;
   background: var(--gold);
 }
-.footer__grid {
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
+.footer__nav {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 56px);
 }
-.footer__col { display: flex; flex-direction: column; gap: 10px; }
-.footer__col .meta { margin-bottom: 6px; }
-.footer__col a { color: var(--stone); transition: color 0.25s ease-out; font-size: 15px; }
+.footer__col { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.footer__col .meta { margin-bottom: 12px; color: var(--gold); }
+.footer__col a {
+  color: var(--stone);
+  transition: color 0.25s var(--ease-cine);
+  font-size: 15px;
+  padding: 7px 0;              /* comfortable tap target */
+  line-height: 1.3;
+  overflow-wrap: anywhere;     /* long email never forces horizontal scroll */
+}
 .footer__col a:hover { color: var(--bone); }
 .footer__legal {
   border-top: 1px solid var(--line-dark);
-  padding-top: 22px;
+  padding-top: 26px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
   color: var(--stone);
   font-size: 13px;
+  letter-spacing: 0.02em;
 }
+.footer__legal-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.footer__legal-links a {
+  color: var(--stone);
+  transition: color 0.25s var(--ease-cine);
+  padding: 4px 0;
+}
+.footer__legal-links a:hover { color: var(--bone); }
+.footer__back {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--stone);
+  transition: color 0.25s var(--ease-cine);
+}
+.footer__back:hover { color: var(--gold); }
 
 /* ═══════════ MOTION SYSTEM ═══════════ */
 /* Reveals — one easing, transform+opacity only */
@@ -827,12 +961,43 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .duo { grid-template-columns: 1fr; }
   .duo__media { max-width: 420px; }
   .form__row { grid-template-columns: 1fr; }
+  .footer__top { grid-template-columns: 1fr; gap: clamp(36px, 8vw, 56px); }
 }
 @media (max-width: 620px) {
-  .nav { flex-wrap: wrap; }
-  .nav__links { gap: 18px; }
+  /* Nav — one row: wordmark left, links right, condensed so they fit on the same level */
+  .nav { flex-wrap: nowrap; gap: 10px; padding: 14px 5vw; }
+  .nav__mark { flex-shrink: 0; }
+  .nav__links { gap: 14px; flex-wrap: nowrap; }
+  .nav__link { padding: 11px 0; font-size: 11px; letter-spacing: 0.11em; }
   .nav__cta { display: none; }
+
   .cine { height: 280vh; }
+  /* Hero eyebrow fits on one line — no lone "STUDIO" hanging on a second row */
+  .cine__ui .eyebrow { font-size: 11px; letter-spacing: 0.13em; gap: 8px; }
+  .cine__ui .eyebrow::before { width: 20px; }
+
+  /* Portfolio on mobile: keep it short. Show the two lead reels at full size,
+     hide the rest (still shown on desktop), and set stills side by side. */
+  [data-tier-grid="best_campaigns"] .tile:nth-child(n+4) { display: none; }
+  [data-tier-grid="best_social_assets"] { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tier-head { margin-top: clamp(26px, 8vw, 44px); }
+
+  /* Footer — centered logo to unify the brand; links full-width below so the
+     email always stays on one line. */
+  .footer__top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(34px, 9vw, 50px);        /* breathing room between logo and links */
+  }
+  .footer__brand { align-items: center; text-align: center; gap: 18px; padding-top: 12px; }  /* drop the logo down a touch */
+  .footer__brand .lockup { align-items: center; }
+  .footer__tag { text-align: center; font-size: 15px; max-width: 24ch; }
+  .lockup .stack { font-size: clamp(40px, 13vw, 58px); }
+  .footer__nav { grid-template-columns: 1fr; gap: 28px; justify-items: center; }
+  .footer__col { align-items: center; text-align: center; }
+  .footer__col a { white-space: nowrap; }   /* email on one line (full width, plenty of room) */
 }
 
 /* ═══════════ REDUCED MOTION ═══════════ */

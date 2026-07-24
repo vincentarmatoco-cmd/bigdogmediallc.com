@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Big Dog Media — We Make Brands Impossible to Ignore</title>
-  <meta name="description" content="Big Dog Media is a video production and social advertising studio. Game Day capture, Media Day production, and content engines that stop the scroll.">
+  <meta name="description" content="Big Dog Media is a video production and social advertising studio. Films, ad creative, and content engines that stop the scroll.">
   <meta name="theme-color" content="#0A0A0A">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Big Dog Media — We Make Brands Impossible to Ignore">
-  <meta property="og:description" content="Video production and social advertising. Game Day, Media Day, and content engines that stop the scroll.">
+  <meta property="og:description" content="Video production and social advertising. Films, ad creative, and content engines that stop the scroll.">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,25 +22,22 @@
 <body>
 
   <header class="nav">
-    <a href="index.html" class="nav__mark" aria-label="Big Dog Media — home">
+    <a href="#top" class="nav__mark" aria-label="Big Dog Media — home">
       <span class="stack">Big&nbsp;Dog</span>
       <span class="media">Media</span>
     </a>
     <nav class="nav__links" aria-label="Primary">
-      <a href="work.html" class="nav__link">Work</a>
-      <a href="services.html" class="nav__link">Services</a>
-      <a href="about.html" class="nav__link">About</a>
-      <a href="contact.html" class="btn btn--bone nav__cta">Start a project</a>
+      <a href="#work" class="nav__link">Work</a>
+      <a href="#services" class="nav__link">Services</a>
+      <a href="#about" class="nav__link">About</a>
+      <a href="#contact" class="btn btn--bone nav__cta">Start a project</a>
     </nav>
   </header>
 
-  <main>
+  <main id="top">
 
     <!-- ══════════ CINEMATIC SCROLL-SCRUB HERO ══════════
-         Scroll drives a designed canvas sequence frame-by-frame (sticky stage).
-         To use a real reel instead: drop a muted MP4 in assets/videos/, swap the
-         <canvas> for <video data-cine-video muted playsinline preload="auto">, and
-         in js/main.js set video.currentTime = progress * video.duration (block noted there). -->
+         Scroll drives a designed canvas sequence frame-by-frame (sticky stage). -->
     <section class="cine" data-cine id="hero">
       <div class="cine__stage">
         <canvas class="cine__canvas" data-cine-canvas></canvas>
@@ -64,7 +61,7 @@
         <p class="eyebrow">What we do</p>
         <h2 class="scene__idea">We make the work people <span class="accent">can't scroll past.</span></h2>
         <p class="scene__note">Launch films, ad creative, and content engines — one team, concept to campaign, built for the feed instead of adapted to it.</p>
-        <p class="scene__cta"><a href="work.html" class="textlink">See the proof</a></p>
+        <p class="scene__cta"><a href="#work" class="textlink">See the proof</a></p>
       </div>
     </section>
 
@@ -76,7 +73,7 @@
     </section>
 
     <!-- ══════════ WORK SCENE · Food films ══════════ -->
-    <section class="workscene" id="films">
+    <section class="workscene" id="work">
       <div class="workscene__media" data-parallax="0.12">
         <img src="portfolio/homepage/best_social_assets/_GTS3656.jpg" alt="Food film still — Big Dog Media" loading="lazy" onerror="this.style.display='none'">
       </div>
@@ -109,8 +106,138 @@
       </div>
     </section>
 
-    <!-- ══════════ SCENE · proof (ink) ══════════ -->
-    <section class="sec--ink scene">
+    <!-- ══════════ TESTIMONIALS (ink) ══════════
+         Sample quotes — replace with real client words. Attributions reuse the
+         portfolio clients so they stay consistent with the work shown above. -->
+    <section class="sec sec--ink" id="testimonials">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <p class="eyebrow">Testimonials</p>
+          <h2 class="sec-title">Straight from the pack</h2>
+        </div>
+        <ul class="quotes" data-stagger>
+          <li class="quote">
+            <p class="quote__text">They didn't just film our food — they filled our tables. We were booked solid three weeks after the reel dropped.</p>
+            <div class="quote__by">
+              <span class="quote__name">Whiskey Hill</span>
+              <span class="quote__role">Bar &amp; Kitchen</span>
+            </div>
+          </li>
+          <li class="quote">
+            <p class="quote__text">One video did what six months of flyers couldn't. The line's been out the door ever since.</p>
+            <div class="quote__by">
+              <span class="quote__name">Fire Water BBQ</span>
+              <span class="quote__role">Pit &amp; Smokehouse</span>
+            </div>
+          </li>
+          <li class="quote">
+            <p class="quote__text">Every plate suddenly looked worth the drive. Our DMs haven't stopped since Big Dog took over.</p>
+            <div class="quote__by">
+              <span class="quote__name">The Hive</span>
+              <span class="quote__role">Restaurant</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════ PORTFOLIO GRIDS (bone) — populated by portfolio/manifest.json ══════════ -->
+    <section class="sec sec--bone">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <p class="eyebrow">Selected work</p>
+          <h2 class="sec-title">The proof, playing</h2>
+        </div>
+
+        <div class="tier-head" data-reveal>
+          <p class="eyebrow">01 — Campaign films</p>
+        </div>
+        <div class="tiles" data-tier-grid="best_campaigns">
+          <article class="tile" data-reveal>
+            <div class="tile__media"><span class="meta">Reel / launch film</span></div>
+            <div class="tile__body">
+              <span class="tile__client">Campaign film</span>
+              <span class="tile__metric">Tap to play</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="tier-head" data-reveal>
+          <p class="eyebrow">02 — Social stills</p>
+        </div>
+        <div class="tiles" data-tier-grid="best_social_assets">
+          <article class="tile" data-reveal>
+            <div class="tile__media"><span class="meta">Food photography</span></div>
+            <div class="tile__body">
+              <span class="tile__client">Social still</span>
+              <span class="tile__metric">Menu-ready</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ SERVICES (ink) ══════════ -->
+    <section class="sec sec--ink" id="services">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <p class="eyebrow">Services</p>
+          <h2 class="sec-title">Pick your lane</h2>
+          <p class="lede">Three services. One standard: work that earns attention and turns it into revenue.</p>
+        </div>
+
+        <div class="service-block" data-reveal>
+          <div class="service-block__intro">
+            <p class="eyebrow">01 — Video production</p>
+            <h3 class="sec-title">Video that stops the scroll</h3>
+            <p>Launch films, brand films, and short-form sets. Hooks engineered
+            for the first 1.5 seconds, edits built for retention. We built a
+            launch film that moved 2M views in a week.</p>
+          </div>
+          <ul class="list">
+            <li>Launch &amp; brand films</li>
+            <li>Short-form sets — Reels, TikTok, Shorts</li>
+            <li>UGC-style ad creative at scale</li>
+            <li>Full production: script, shoot, cut, grade</li>
+          </ul>
+        </div>
+
+        <div class="service-block" data-reveal>
+          <div class="service-block__intro">
+            <p class="eyebrow">02 — Social advertising</p>
+            <h3 class="sec-title">Paid that pays back</h3>
+            <p>Creative-first media buying across Meta, TikTok, and YouTube.
+            Every account treated like our own money — scaled profitably,
+            reported plainly.</p>
+          </div>
+          <ul class="list">
+            <li>Full-funnel campaign architecture</li>
+            <li>Creative testing — hooks, angles, formats</li>
+            <li>Weekly performance sprints</li>
+            <li>Reporting you can actually read</li>
+          </ul>
+        </div>
+
+        <div class="service-block" data-reveal>
+          <div class="service-block__intro">
+            <p class="eyebrow">03 — Content engines</p>
+            <h3 class="sec-title">Your social, handled</h3>
+            <p>Full social management. Strategy, production, posting, ads, and
+            community — run by us, owned by you. You run the business. We run
+            the noise.</p>
+          </div>
+          <ul class="list">
+            <li>End-to-end content &amp; channel operations</li>
+            <li>Monthly strategy sessions with Vincent</li>
+            <li>Community management &amp; trend response</li>
+            <li>One flat retainer, zero surprises</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ PROOF / STATS (bone) ══════════ -->
+    <section class="sec sec--bone">
       <div class="wrap">
         <div class="sec-head" data-reveal>
           <p class="eyebrow">Big claims. Backed up.</p>
@@ -124,40 +251,141 @@
       </div>
     </section>
 
+    <!-- ══════════ ABOUT · founder (ink) ══════════ -->
+    <section class="sec sec--ink" id="about">
+      <div class="wrap duo">
+        <figure class="duo__media" data-reveal>
+          <div class="frame">
+            <!-- Drop a founder photo at assets/vincent.jpg -->
+            <img src="portfolio/homepage/01.jpg" alt="Vincent Armato, founder of Big Dog Media" loading="lazy" onerror="this.classList.add('is-missing')">
+            <span class="meta">Portrait / Vincent Armato</span>
+          </div>
+        </figure>
+        <div class="duo__body">
+          <p class="eyebrow" data-reveal>01 — The founder</p>
+          <h2 class="sec-title" data-reveal>Vincent Armato</h2>
+          <p class="muted" data-reveal>
+            Big Dog Media was built on one belief: attention is the most valuable
+            currency in business — and video is how you earn it. Vincent founded
+            the studio to give growth-minded businesses the content firepower
+            once reserved for seven-figure budgets.
+          </p>
+          <p class="muted" data-reveal>
+            No bloated retainers. No recycled templates. Every frame, every hook,
+            and every ad dollar has one job: make your brand the one the room
+            remembers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ ABOUT · principles (bone) ══════════ -->
+    <section class="sec sec--bone">
+      <div class="wrap">
+        <div class="sec-head" data-reveal>
+          <p class="eyebrow">02 — How we work</p>
+          <h2 class="sec-title">The Big Dog standard</h2>
+        </div>
+        <ul class="claims" data-stagger>
+          <li>Small team. Senior only. <span>Nothing gets handed down.</span></li>
+          <li>We answer in hours. <span>Not business days.</span></li>
+          <li>Results in the open. <span>You see what we see.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ══════════ CONTACT · form (ink) ══════════ -->
+    <section class="sec sec--ink" id="contact">
+      <div class="wrap sec-head" data-reveal>
+        <p class="eyebrow">Contact</p>
+        <h2 class="sec-title">Let's talk</h2>
+        <p class="lede">Tell us where you're headed. We reply within a day.</p>
+      </div>
+      <div class="wrap">
+        <form class="form" id="contactForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
+          <input type="hidden" name="access_key" value="e630bc63-747f-4ea7-b2e2-37ce9123f7c6">
+          <input type="hidden" name="from_name" value="Big Dog Media — website inquiry">
+          <!-- Honeypot: bots fill this, humans never see it -->
+          <input type="checkbox" name="botcheck" tabindex="-1" aria-hidden="true" style="display:none">
+          <div class="form__row">
+            <div class="field">
+              <label for="fName">Your name</label>
+              <input type="text" id="fName" name="name" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="fBiz">Business</label>
+              <input type="text" id="fBiz" name="business" required autocomplete="organization">
+            </div>
+          </div>
+
+          <fieldset class="budget">
+            <legend>Monthly budget</legend>
+            <div class="pills">
+              <label class="pill-opt"><input type="radio" name="budget" value="$1K–2.5K"><span>$1K–2.5K</span></label>
+              <label class="pill-opt"><input type="radio" name="budget" value="$2.5K–5K" checked><span>$2.5K–5K</span></label>
+              <label class="pill-opt"><input type="radio" name="budget" value="$5K–10K"><span>$5K–10K</span></label>
+              <label class="pill-opt"><input type="radio" name="budget" value="$10K+"><span>$10K+</span></label>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="fMsg">The goal</label>
+            <textarea id="fMsg" name="message" rows="5" required></textarea>
+          </div>
+
+          <div>
+            <button type="submit" class="btn btn--bone">Send it</button>
+          </div>
+          <p class="form__consent">By submitting this form you agree to our <a href="privacy.html">Privacy Policy</a>. We only use your details to reply to your inquiry.</p>
+          <p class="form__status" id="formStatus" role="status"></p>
+        </form>
+      </div>
+    </section>
+
     <!-- ══════════ CTA (the one gold field) ══════════ -->
     <section class="sec sec--gold">
       <div class="wrap promo">
         <h2 class="sec-title" data-reveal>Stop the scroll.<br>Start the talk.</h2>
         <p data-reveal>Tell us where you're headed. We reply within a day.</p>
-        <a href="contact.html" class="btn btn--ink" data-reveal>Book a call</a>
+        <a href="#contact" class="btn btn--ink" data-reveal>Book a call</a>
       </div>
     </section>
   </main>
 
+  <!-- ══════════ FOOTER ══════════ -->
   <footer class="footer">
     <div class="wrap">
-      <a href="index.html" class="lockup" aria-label="Big Dog Media">
-        <span class="stack">Big<br>Dog</span>
-        <span class="media">Media</span>
-      </a>
-      <div class="footer__grid">
-        <div class="footer__col">
-          <span class="meta">Contact</span>
-          <a href="mailto:vincentarmato.co@gmail.com">vincentarmato.co@gmail.com</a>
-          <a href="tel:+16303382172">630-338-2172</a>
-          <a href="https://instagram.com/bigdogmedia" target="_blank" rel="noopener">@bigdogmedia</a>
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="#top" class="lockup" aria-label="Big Dog Media">
+            <span class="stack">Big<br>Dog</span>
+            <span class="media">Media</span>
+          </a>
+          <p class="footer__tag">We make brands impossible to ignore.</p>
         </div>
-        <div class="footer__col">
-          <span class="meta">Site</span>
-          <a href="work.html">Work</a>
-          <a href="services.html">Services</a>
-          <a href="about.html">About</a>
-          <a href="contact.html">Contact</a>
-        </div>
+        <nav class="footer__nav" aria-label="Footer">
+          <div class="footer__col">
+            <span class="meta">Explore</span>
+            <a href="#work">Work</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div class="footer__col">
+            <span class="meta">Connect</span>
+            <a href="mailto:vincentarmato.co@gmail.com">vincentarmato.co@gmail.com</a>
+            <a href="tel:+16303382172">630-338-2172</a>
+            <a href="https://instagram.com/vincent_armato" target="_blank" rel="noopener">@vincent_armato</a>
+          </div>
+        </nav>
       </div>
       <div class="footer__legal">
         <span>© 2026 Big Dog Media LLC</span>
-        <span>We make brands impossible to ignore.</span>
+        <nav class="footer__legal-links" aria-label="Legal">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+        </nav>
+        <a href="#top" class="footer__back">Back to top ↑</a>
       </div>
     </div>
   </footer>

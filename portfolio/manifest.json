@@ -3,6 +3,13 @@
   "best_campaigns": [
     {
       "type": "video",
+      "title": "Bardo Basketball",
+      "result": "Hype reel",
+      "src": "portfolio/homepage/best_campaigns/Bardo%20Basketball.mp4",
+      "poster": "portfolio/homepage/best_campaigns/bardo-poster.jpg"
+    },
+    {
+      "type": "video",
       "title": "Whiskey Hill",
       "result": "Brand film",
       "src": "portfolio/homepage/best_campaigns/SAMPLE%20-%20WhiskeyHill1.mp4",
@@ -17,14 +24,14 @@
     },
     {
       "type": "video",
-      "title": "Queen Bee Pasta",
+      "title": "The Hive",
       "result": "Menu film",
       "src": "portfolio/homepage/best_campaigns/queenbeepasta.mp4",
       "poster": "portfolio/homepage/best_campaigns/queenbeepasta-poster.jpg"
     },
     {
       "type": "video",
-      "title": "Summer Heat",
+      "title": "The Hive",
       "result": "Campaign reel",
       "src": "portfolio/homepage/best_campaigns/summerheat.mp4",
       "poster": "portfolio/homepage/best_campaigns/summerheat-poster.jpg"
@@ -37,7 +44,7 @@
       "src": "portfolio/homepage/best_social_assets/_GTS3656.jpg"
     },
     {
-      "title": "Loaded Alfredo",
+      "title": "Queen Bee Pasta",
       "result": "Food photography",
       "src": "portfolio/homepage/best_social_assets/_GTS3615.jpg"
     }
