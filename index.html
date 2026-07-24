@@ -137,6 +137,20 @@
               <span class="quote__role">Restaurant</span>
             </div>
           </li>
+          <li class="quote">
+            <p class="quote__text">The training footage they cut for me hits different — parents actually stop scrolling and book. My sessions filled up faster than any flyer ever moved them.</p>
+            <div class="quote__by">
+              <span class="quote__name">Dave Brown</span>
+              <span class="quote__role">Basketball training</span>
+            </div>
+          </li>
+          <li class="quote">
+            <p class="quote__text">They made our program look like the big time. Registrations climbed and kids started showing up asking to be on the team they saw online.</p>
+            <div class="quote__by">
+              <span class="quote__name">Bardo Basketball</span>
+              <span class="quote__role">AAU program</span>
+            </div>
+          </li>
         </ul>
       </div>
     </section>
@@ -150,29 +164,19 @@
         </div>
 
         <div class="tier-head" data-reveal>
-          <p class="eyebrow">01 — Campaign films</p>
+          <p class="eyebrow">Campaign films</p>
         </div>
-        <div class="tiles" data-tier-grid="best_campaigns">
-          <article class="tile" data-reveal>
-            <div class="tile__media"><span class="meta">Reel / launch film</span></div>
-            <div class="tile__body">
-              <span class="tile__client">Campaign film</span>
-              <span class="tile__metric">Tap to play</span>
+        <!-- Center-focused reel carousel — slides injected by js/main.js from
+             portfolio/manifest.json (best_campaigns). Neighbors peek in from the
+             sides; arrows loop infinitely. Tap a reel to play it in place. -->
+        <div class="reelousel" data-reel-carousel="best_campaigns" data-reveal>
+          <button class="reelousel__nav reelousel__nav--prev" type="button" aria-label="Previous reel"></button>
+          <div class="reelousel__viewport">
+            <div class="reelousel__track" data-reel-track>
+              <p class="reelousel__empty meta">Reels loading…</p>
             </div>
-          </article>
-        </div>
-
-        <div class="tier-head" data-reveal>
-          <p class="eyebrow">02 — Social stills</p>
-        </div>
-        <div class="tiles" data-tier-grid="best_social_assets">
-          <article class="tile" data-reveal>
-            <div class="tile__media"><span class="meta">Food photography</span></div>
-            <div class="tile__body">
-              <span class="tile__client">Social still</span>
-              <span class="tile__metric">Menu-ready</span>
-            </div>
-          </article>
+          </div>
+          <button class="reelousel__nav reelousel__nav--next" type="button" aria-label="Next reel"></button>
         </div>
       </div>
     </section>

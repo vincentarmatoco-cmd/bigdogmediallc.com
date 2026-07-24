@@ -392,6 +392,78 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   text-transform: uppercase;
 }
 
+/* ═══════════ REEL CAROUSEL ═══════════
+   Center-focused, infinite-loop reel strip. The middle slide scales up and
+   sharpens; neighbors sit scaled down and peek past the viewport edges. */
+.reelousel {
+  position: relative;
+}
+.reelousel__viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 18px 0 24px; /* room for the scaled-up center slide */
+}
+.reelousel__track {
+  display: flex;
+  gap: clamp(16px, 3vw, 34px);
+  will-change: transform;
+}
+.reelousel__slide {
+  flex: 0 0 auto;
+  width: clamp(200px, 66vw, 300px);
+  transform: scale(0.84);
+  opacity: 0.5;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reelousel__slide.is-center {
+  transform: scale(1);
+  opacity: 1;
+}
+.reelousel__slide .tile { height: 100%; }
+.reelousel__empty {
+  width: 100%;
+  text-align: center;
+  color: var(--stone);
+  padding: 40px 0;
+}
+/* Round nav buttons — overlay the viewport edges (sit over the peeking
+   neighbors), so the reels get the full width. Mirror the reel play button:
+   bone-on-ink glass, gold on hover. */
+.reelousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--line-dark);
+  background: rgba(10, 10, 10, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--bone);
+  transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+}
+.reelousel__nav--prev { left: clamp(2px, 1vw, 14px); }
+.reelousel__nav--next { right: clamp(2px, 1vw, 14px); }
+.reelousel__nav::before {
+  content: '';
+  width: 0; height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+.reelousel__nav--prev::before { border-right: 12px solid currentColor; margin-right: 3px; }
+.reelousel__nav--next::before { border-left: 12px solid currentColor; margin-left: 3px; }
+.reelousel__nav:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); transform: translateY(-50%) scale(1.06); }
+@media (max-width: 600px) {
+  .reelousel__nav { width: 44px; height: 44px; }
+}
+
 /* ═══════════ STATS & CLAIMS ═══════════ */
 .stats {
   list-style: none;

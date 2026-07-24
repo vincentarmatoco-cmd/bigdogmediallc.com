@@ -322,35 +322,157 @@
      tapped (preload none), then plays with sound + controls. Photos render
      as images. Relative paths survive GitHub Pages sub-path hosting. */
   const tierGrids = document.querySelectorAll('[data-tier-grid]');
+  const carousels = document.querySelectorAll('[data-reel-carousel]');
   const esc = s => String(s || '').replace(/"/g, '&quot;');
   const isVideo = item => item.type === 'video' || /\.(mp4|webm|mov)(\?|$)/i.test(item.src || '');
+
+  // One tile's markup — reused by the grids and the reel carousel so styling
+  // and tap-to-play behave identically in both.
+  function tileMarkup(item) {
+    const vid = isVideo(item);
+    const media = vid
+      ? `<button class="tile__play" type="button" aria-label="Play ${esc(item.title) || 'reel'}" data-video="${esc(item.src)}">
+           ${item.poster ? `<img loading="lazy" decoding="async" src="${esc(item.poster)}" alt="${esc(item.title) || 'Reel'}">` : ''}
+           <span class="tile__playbtn" aria-hidden="true"></span>
+         </button>`
+      : (item.src
+          ? `<img loading="lazy" decoding="async" src="${esc(item.src)}" alt="${esc(item.title) || 'Portfolio piece'}">`
+          : `<span class="meta">${esc(item.label) || 'Reel / case film'}</span>`);
+    return `<article class="tile${vid ? ' tile--reel' : ''}">
+      <div class="tile__media">${media}</div>
+      <div class="tile__body">
+        <span class="tile__client">${esc(item.title)}</span>
+        <span class="tile__metric">${esc(item.result)}</span>
+      </div>
+    </article>`;
+  }
+
   function renderManifest(man) {
     if (!man) return;
     tierGrids.forEach(grid => {
       const items = man[grid.dataset.tierGrid];
       if (!Array.isArray(items) || !items.length) return;
-      grid.innerHTML = items.map(item => {
-            const vid = isVideo(item);
-            const media = vid
-              ? `<button class="tile__play" type="button" aria-label="Play ${esc(item.title) || 'reel'}" data-video="${esc(item.src)}">
-                   ${item.poster ? `<img loading="lazy" decoding="async" src="${esc(item.poster)}" alt="${esc(item.title) || 'Reel'}">` : ''}
-                   <span class="tile__playbtn" aria-hidden="true"></span>
-                 </button>`
-              : (item.src
-                  ? `<img loading="lazy" decoding="async" src="${esc(item.src)}" alt="${esc(item.title) || 'Portfolio piece'}">`
-                  : `<span class="meta">${esc(item.label) || 'Reel / case film'}</span>`);
-            return `<article class="tile${vid ? ' tile--reel' : ''}">
-              <div class="tile__media">${media}</div>
-              <div class="tile__body">
-                <span class="tile__client">${esc(item.title)}</span>
-                <span class="tile__metric">${esc(item.result)}</span>
-              </div>
-            </article>`;
-      }).join('');
+      grid.innerHTML = items.map(tileMarkup).join('');
+    });
+    carousels.forEach(car => {
+      const items = man[car.dataset.reelCarousel];
+      if (!Array.isArray(items) || !items.length) return;
+      buildCarousel(car, items);
     });
   }
 
-  if (tierGrids.length) {
+  /* ───────── Center-focused reel carousel ─────────
+     Clone-buffered infinite loop: [clones][reals][clones]. The active index
+     walks the full list; when it crosses into a clone band we snap (transition
+     off) back to the matching real slide, so next/prev loop seamlessly. The
+     centered slide gets .is-center (scales up); neighbors peek in scaled down.
+     Slide inner markup is the same reel tile, so the shared tap-to-play
+     delegation below plays a reel with zero extra wiring. */
+  function buildCarousel(car, items) {
+    const track = car.querySelector('[data-reel-track]');
+    const viewport = car.querySelector('.reelousel__viewport');
+    if (!track || !viewport) return;
+
+    const n = items.length;
+    const slideHTML = item => `<div class="reelousel__slide">${tileMarkup(item)}</div>`;
+    // Clone the whole set on each side so the peeking neighbors are always real.
+    const seq = items.concat(items, items); // [clones][reals][clones]
+    track.innerHTML = seq.map(slideHTML).join('');
+    const slides = Array.from(track.children);
+
+    let index = n;          // first real slide
+    let step = 0;           // slide width + gap, measured from the DOM
+    let slideW = 0;
+    let animating = false;
+
+    function measure() {
+      slideW = slides[0].getBoundingClientRect().width;
+      step = slides.length > 1
+        ? slides[1].offsetLeft - slides[0].offsetLeft
+        : slideW;
+    }
+
+    function place(animate) {
+      const vpW = viewport.clientWidth;
+      const x = vpW / 2 - (index * step + slideW / 2);
+      track.style.transition = (animate && !prefersReduced)
+        ? 'transform 0.5s cubic-bezier(0.22,1,0.36,1)'
+        : 'none';
+      track.style.transform = `translate3d(${x}px,0,0)`;
+      slides.forEach((s, i) => s.classList.toggle('is-center', i === index));
+    }
+
+    // Pause a reel that's playing when it leaves the center.
+    function pauseOthers() {
+      slides.forEach((s, i) => {
+        if (i === index) return;
+        const v = s.querySelector('video');
+        if (v && !v.paused) v.pause();
+      });
+    }
+
+    function step_(dir) {
+      if (animating && !prefersReduced) return;
+      index += dir;
+      animating = true;
+      pauseOthers();
+      place(true);
+      if (prefersReduced) { normalize(); animating = false; }
+    }
+
+    // After the animation, if we've walked into a clone band, jump (no
+    // transition) to the equivalent real slide so the loop never runs out.
+    function normalize() {
+      if (index < n) index += n;
+      else if (index >= 2 * n) index -= n;
+      place(false);
+    }
+
+    track.addEventListener('transitionend', e => {
+      if (e.propertyName !== 'transform') return;
+      normalize();
+      animating = false;
+    });
+
+    const prev = car.querySelector('.reelousel__nav--prev');
+    const next = car.querySelector('.reelousel__nav--next');
+    if (prev) prev.addEventListener('click', () => step_(-1));
+    if (next) next.addEventListener('click', () => step_(1));
+
+    // Keyboard: arrows move the carousel when it holds focus.
+    car.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); step_(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); step_(1); }
+    });
+
+    // Touch / pointer swipe on the viewport.
+    let startX = null;
+    viewport.addEventListener('pointerdown', e => { startX = e.clientX; });
+    viewport.addEventListener('pointerup', e => {
+      if (startX === null) return;
+      const dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40) step_(dx < 0 ? 1 : -1);
+    });
+    viewport.addEventListener('pointercancel', () => { startX = null; });
+
+    let rTick = false;
+    window.addEventListener('resize', () => {
+      if (rTick) return;
+      rTick = true;
+      requestAnimationFrame(() => { measure(); place(false); rTick = false; });
+    });
+
+    // Wait for poster images to settle so the first measure is accurate.
+    measure();
+    place(false);
+    requestAnimationFrame(() => { measure(); place(false); });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => { measure(); place(false); });
+    }
+  }
+
+  if (tierGrids.length || carousels.length) {
     // Embedded manifest (self-contained builds) wins; else fetch the file.
     if (window.__PORTFOLIO_MANIFEST__) renderManifest(window.__PORTFOLIO_MANIFEST__);
     else if (window.fetch) {
