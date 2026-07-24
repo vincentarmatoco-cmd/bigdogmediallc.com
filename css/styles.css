@@ -520,8 +520,11 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   justify-content: center;
   padding: clamp(6px, 1.5vw, 14px) 0;
 }
-/* Under JS: stack the slides and crossfade the active one */
-.js .tcarousel__track { position: relative; }
+/* Under JS: stack the slides and crossfade the active one. The slides are
+   positioned against .tcarousel__viewport (which carries the min-height set by
+   main.js), so the track must NOT be a positioning context — otherwise the
+   0-height track would collapse the slides and the quote would overflow up
+   into the heading. */
 .js .tcarousel__slide {
   position: absolute;
   inset: 0;
