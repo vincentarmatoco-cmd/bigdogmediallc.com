@@ -500,70 +500,149 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .claims li span { color: var(--stone); }
 
-/* ═══════════ TESTIMONIALS ═══════════ */
-.quotes {
+/* ═══════════ TESTIMONIALS — auto-advancing carousel ═══════════
+   One centered quote at a time; fades/slides between them. Without JS every
+   slide simply stacks and stays readable (the .js-scoped rules below only kick
+   in once main.js has upgraded it). */
+.tcarousel {
+  max-width: 860px;
+  margin: clamp(8px, 2vw, 20px) auto 0;
+  text-align: center;
+}
+.tcarousel__viewport { position: relative; }
+.tcarousel__track {
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(18px, 2.5vw, 28px);
+  margin: 0;
+  padding: 0;
 }
-.quote {
-  position: relative;
+.tcarousel__slide {
   display: flex;
-  flex-direction: column;
-  gap: clamp(22px, 3vw, 32px);
-  padding: clamp(28px, 3vw, 42px);
-  border: 1px solid var(--line-dark);
-  border-radius: 12px;
-  overflow: hidden;
+  justify-content: center;
+  padding: clamp(6px, 1.5vw, 14px) 0;
 }
-.sec--bone .quote { border-color: var(--line-light); }
-/* Oversized opening quote as a faint watermark (keeps gold to the eyebrow only) */
-.quote::before {
-  content: '\201C';
+/* Under JS: stack the slides and crossfade the active one */
+.js .tcarousel__track { position: relative; }
+.js .tcarousel__slide {
   position: absolute;
-  top: clamp(4px, 1vw, 12px);
-  right: clamp(14px, 2vw, 26px);
-  font-family: var(--font-serif);
-  font-size: clamp(90px, 9vw, 130px);
-  line-height: 1;
-  color: var(--bone);
-  opacity: 0.07;
+  inset: 0;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
 }
-.sec--bone .quote::before { color: var(--body); opacity: 0.09; }
-.quote__text {
+.js .tcarousel__slide.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.tquote {
   position: relative;
+  margin: 0;
+  max-width: 40ch;
+  padding-top: clamp(30px, 5vw, 52px);
+}
+/* Oversized opening quote mark — the one gold accent */
+.tquote::before {
+  content: '\201C';
+  position: absolute;
+  top: clamp(-12px, -1vw, 0px);
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-serif);
-  font-size: clamp(19px, 1.6vw, 25px);
-  line-height: 1.3;
+  font-size: clamp(70px, 8vw, 104px);
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.tquote__text {
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 2.6vw, 34px);
+  line-height: 1.32;
   color: var(--bone);
   text-wrap: pretty;
 }
-.sec--bone .quote__text { color: var(--body); }
-.quote__by {
+.sec--bone .tquote__text { color: var(--body); }
+.tquote__by {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin-top: auto;
-  padding-top: clamp(4px, 1vw, 10px);
+  margin-top: clamp(20px, 2.5vw, 30px);
 }
-.quote__name {
+.tquote__name {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 15px;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
   color: var(--bone);
 }
-.sec--bone .quote__name { color: var(--ink); }
-.quote__role {
+.sec--bone .tquote__name { color: var(--ink); }
+.tquote__role {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--stone);
+  color: var(--gold);
+}
+
+/* Controls — arrows flank a row of dots, centered under the quote.
+   Hidden until JS upgrades the carousel. */
+.tcarousel__controls { display: none; }
+.js .tcarousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2vw, 22px);
+  margin-top: clamp(26px, 3.5vw, 40px);
+}
+.tcarousel__nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line-dark);
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: var(--bone);
+  transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.sec--bone .tcarousel__nav { border-color: var(--line-light); color: var(--ink); }
+.tcarousel__nav::before {
+  content: '';
+  width: 0; height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+}
+.tcarousel__nav--prev::before { border-right: 10px solid currentColor; margin-right: 3px; }
+.tcarousel__nav--next::before { border-left: 10px solid currentColor; margin-left: 3px; }
+.tcarousel__nav:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); transform: scale(1.06); }
+.tcarousel__dots {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tcarousel__dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--stone);
+  opacity: 0.4;
+  cursor: pointer;
+  transition: opacity 0.25s ease, background 0.25s ease, width 0.25s ease;
+}
+.tcarousel__dot:hover { opacity: 0.75; }
+.tcarousel__dot.is-active {
+  opacity: 1;
+  width: 26px;
+  border-radius: 5px;
+  background: var(--gold);
 }
 
 /* ═══════════ GOLD PROMO / CTA BLOCK ═══════════ */

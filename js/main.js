@@ -500,4 +500,97 @@
     });
   }
 
+  /* ───────── Testimonials carousel ─────────
+     One quote at a time, crossfading. Auto-advances every few seconds and
+     loops; pauses while hovered/focused; a click on a dot or arrow takes manual
+     control and stops the auto-play for the rest of the visit. Height is pinned
+     to the tallest quote so the crossfade never jolts the layout. Reduced
+     motion → no auto-play (arrows/dots still work). */
+  const tcar = document.querySelector('[data-testimonials]');
+  if (tcar) {
+    const viewport = tcar.querySelector('.tcarousel__viewport');
+    const slides = Array.from(tcar.querySelectorAll('.tcarousel__slide'));
+    const dotsWrap = tcar.querySelector('.tcarousel__dots');
+    const prev = tcar.querySelector('.tcarousel__nav--prev');
+    const next = tcar.querySelector('.tcarousel__nav--next');
+    const DELAY = 5500;
+
+    if (slides.length) {
+      let index = slides.findIndex(s => s.classList.contains('is-active'));
+      if (index < 0) index = 0;
+      let timer = null;
+      let userControlled = false;
+
+      // Dots
+      const dots = slides.map((_, i) => {
+        const d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'tcarousel__dot';
+        d.setAttribute('role', 'tab');
+        d.setAttribute('aria-label', `Testimonial ${i + 1}`);
+        d.addEventListener('click', () => { stopAuto(); go(i); });
+        dotsWrap && dotsWrap.appendChild(d);
+        return d;
+      });
+
+      function go(i) {
+        index = (i + slides.length) % slides.length;
+        slides.forEach((s, k) => {
+          const on = k === index;
+          s.classList.toggle('is-active', on);
+          s.setAttribute('aria-hidden', on ? 'false' : 'true');
+        });
+        dots.forEach((d, k) => {
+          const on = k === index;
+          d.classList.toggle('is-active', on);
+          d.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      }
+
+      function startAuto() {
+        if (prefersReduced || userControlled || timer) return;
+        timer = setInterval(() => go(index + 1), DELAY);
+      }
+      function pauseAuto() { if (timer) { clearInterval(timer); timer = null; } }
+      function stopAuto() { pauseAuto(); userControlled = true; }
+
+      // Pin the viewport height to the tallest quote so crossfading (the slides
+      // are absolutely stacked) never collapses or clips the section. Measure
+      // the inner .tquote — the slides themselves are position:absolute and
+      // would report a collapsed height.
+      function fitHeight() {
+        let h = 0;
+        slides.forEach(s => {
+          const q = s.querySelector('.tquote');
+          if (q) h = Math.max(h, q.getBoundingClientRect().height);
+        });
+        const cs = getComputedStyle(slides[0]);
+        const pad = (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+        if (h) viewport.style.minHeight = Math.ceil(h + pad) + 'px';
+      }
+
+      if (prev) prev.addEventListener('click', () => { stopAuto(); go(index - 1); });
+      if (next) next.addEventListener('click', () => { stopAuto(); go(index + 1); });
+
+      // Pause on hover / keyboard focus so a quote never slips away mid-read.
+      tcar.addEventListener('mouseenter', pauseAuto);
+      tcar.addEventListener('mouseleave', startAuto);
+      tcar.addEventListener('focusin', pauseAuto);
+      tcar.addEventListener('focusout', startAuto);
+
+      let hTick = false;
+      window.addEventListener('resize', () => {
+        if (hTick) return;
+        hTick = true;
+        requestAnimationFrame(() => { fitHeight(); hTick = false; });
+      });
+
+      go(index);
+      fitHeight();
+      requestAnimationFrame(fitHeight);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeight);
+      startAuto();
+    }
+  }
+
 })();

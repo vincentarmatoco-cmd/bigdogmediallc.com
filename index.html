@@ -10,14 +10,23 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Big Dog Media — We Make Brands Impossible to Ignore">
   <meta property="og:description" content="Video production and social advertising. Films, ad creative, and content engines that stop the scroll.">
+  <meta property="og:url" content="https://bigdogmediallc.com/">
+  <meta property="og:image" content="https://bigdogmediallc.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://bigdogmediallc.com/assets/og-image.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,800;0,900;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230A0A0A'/><text x='50' y='46' font-size='30' font-weight='900' text-anchor='middle' fill='%23F4F1EA' font-family='Arial Black'>BIG</text><text x='50' y='78' font-size='30' font-weight='900' text-anchor='middle' fill='%23F4F1EA' font-family='Arial Black'>DOG</text></svg>">
+  <!-- Favicon / tab + home-screen icon: the BD mark -->
+  <link rel="icon" type="image/svg+xml" href="assets/logo-bd.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 </head>
 <body>
 
@@ -107,51 +116,73 @@
     </section>
 
     <!-- ══════════ TESTIMONIALS (ink) ══════════
-         Sample quotes — replace with real client words. Attributions reuse the
-         portfolio clients so they stay consistent with the work shown above. -->
+         Sample quotes — replace with real client words. One centered quote at a
+         time; it auto-advances every few seconds and loops. Hovering pauses it;
+         clicking a dot or arrow takes manual control and stops the auto-play.
+         js/main.js drives it (initTestimonials); without JS every quote simply
+         stacks and stays readable. -->
     <section class="sec sec--ink" id="testimonials">
       <div class="wrap">
         <div class="sec-head" data-reveal>
           <p class="eyebrow">Testimonials</p>
           <h2 class="sec-title">Straight from the pack</h2>
         </div>
-        <ul class="quotes" data-stagger>
-          <li class="quote">
-            <p class="quote__text">They didn't just film our food — they filled our tables. We were booked solid three weeks after the reel dropped.</p>
-            <div class="quote__by">
-              <span class="quote__name">Whiskey Hill</span>
-              <span class="quote__role">Bar &amp; Kitchen</span>
-            </div>
-          </li>
-          <li class="quote">
-            <p class="quote__text">One video did what six months of flyers couldn't. The line's been out the door ever since.</p>
-            <div class="quote__by">
-              <span class="quote__name">Fire Water BBQ</span>
-              <span class="quote__role">Pit &amp; Smokehouse</span>
-            </div>
-          </li>
-          <li class="quote">
-            <p class="quote__text">Every plate suddenly looked worth the drive. Our DMs haven't stopped since Big Dog took over.</p>
-            <div class="quote__by">
-              <span class="quote__name">The Hive</span>
-              <span class="quote__role">Restaurant</span>
-            </div>
-          </li>
-          <li class="quote">
-            <p class="quote__text">The training footage they cut for me hits different — parents actually stop scrolling and book. My sessions filled up faster than any flyer ever moved them.</p>
-            <div class="quote__by">
-              <span class="quote__name">Dave Brown</span>
-              <span class="quote__role">Basketball training</span>
-            </div>
-          </li>
-          <li class="quote">
-            <p class="quote__text">They made our program look like the big time. Registrations climbed and kids started showing up asking to be on the team they saw online.</p>
-            <div class="quote__by">
-              <span class="quote__name">Bardo Basketball</span>
-              <span class="quote__role">AAU program</span>
-            </div>
-          </li>
-        </ul>
+        <div class="tcarousel" data-testimonials data-reveal>
+          <div class="tcarousel__viewport" aria-live="polite">
+            <ul class="tcarousel__track">
+              <li class="tcarousel__slide is-active">
+                <blockquote class="tquote">
+                  <p class="tquote__text">They didn't just film our food — they filled our tables. We were booked solid three weeks after the reel dropped.</p>
+                  <footer class="tquote__by">
+                    <span class="tquote__name">Whiskey Hill</span>
+                    <span class="tquote__role">Bar &amp; Kitchen</span>
+                  </footer>
+                </blockquote>
+              </li>
+              <li class="tcarousel__slide">
+                <blockquote class="tquote">
+                  <p class="tquote__text">One video did what six months of flyers couldn't. The line's been out the door ever since.</p>
+                  <footer class="tquote__by">
+                    <span class="tquote__name">Fire Water BBQ</span>
+                    <span class="tquote__role">Pit &amp; Smokehouse</span>
+                  </footer>
+                </blockquote>
+              </li>
+              <li class="tcarousel__slide">
+                <blockquote class="tquote">
+                  <p class="tquote__text">Every plate suddenly looked worth the drive. Our DMs haven't stopped since Big Dog took over.</p>
+                  <footer class="tquote__by">
+                    <span class="tquote__name">The Hive</span>
+                    <span class="tquote__role">Restaurant</span>
+                  </footer>
+                </blockquote>
+              </li>
+              <li class="tcarousel__slide">
+                <blockquote class="tquote">
+                  <p class="tquote__text">The training footage they cut for me hits different — parents actually stop scrolling and book. My sessions filled up faster than any flyer ever moved them.</p>
+                  <footer class="tquote__by">
+                    <span class="tquote__name">Dave Brown</span>
+                    <span class="tquote__role">Basketball training</span>
+                  </footer>
+                </blockquote>
+              </li>
+              <li class="tcarousel__slide">
+                <blockquote class="tquote">
+                  <p class="tquote__text">They made our program look like the big time. Registrations climbed and kids started showing up asking to be on the team they saw online.</p>
+                  <footer class="tquote__by">
+                    <span class="tquote__name">Bardo Basketball</span>
+                    <span class="tquote__role">AAU program</span>
+                  </footer>
+                </blockquote>
+              </li>
+            </ul>
+          </div>
+          <div class="tcarousel__controls">
+            <button class="tcarousel__nav tcarousel__nav--prev" type="button" aria-label="Previous testimonial"></button>
+            <div class="tcarousel__dots" role="tablist" aria-label="Choose a testimonial"></div>
+            <button class="tcarousel__nav tcarousel__nav--next" type="button" aria-label="Next testimonial"></button>
+          </div>
+        </div>
       </div>
     </section>
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  <!-- BD mark -->
+  <g transform="translate(430,150)">
+    <rect width="150" height="150" rx="35" fill="#141310"/>
+    <text x="75" y="72" font-family="'Arial Black','Archivo',Arial,sans-serif" font-weight="900" font-size="62" letter-spacing="-2" text-anchor="middle" dominant-baseline="middle" fill="#F4F1EA">BD</text>
+    <rect x="44" y="97" width="62" height="5" rx="2.5" fill="#CF9A4A"/>
+  </g>
+  <text x="600" y="360" font-family="'Archivo','Arial Black',Arial,sans-serif" font-weight="900" font-size="88" letter-spacing="-2" text-anchor="middle" fill="#F4F1EA">BIG DOG MEDIA</text>
+  <text x="600" y="430" font-family="'Archivo',Arial,sans-serif" font-weight="600" font-size="26" letter-spacing="6" text-anchor="middle" fill="#CF9A4A">VIDEO · SOCIAL · PAID</text>
+  <text x="600" y="490" font-family="'Archivo',Arial,sans-serif" font-weight="400" font-size="27" letter-spacing="1" text-anchor="middle" fill="#8F8B83">We make brands impossible to ignore.</text>
+</svg>
