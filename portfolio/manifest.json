@@ -28,13 +28,6 @@
       "result": "Menu film",
       "src": "portfolio/homepage/best_campaigns/queenbeepasta.mp4",
       "poster": "portfolio/homepage/best_campaigns/queenbeepasta-poster.jpg"
-    },
-    {
-      "type": "video",
-      "title": "The Hive",
-      "result": "Campaign reel",
-      "src": "portfolio/homepage/best_campaigns/summerheat.mp4",
-      "poster": "portfolio/homepage/best_campaigns/summerheat-poster.jpg"
     }
   ],
   "best_social_assets": [
