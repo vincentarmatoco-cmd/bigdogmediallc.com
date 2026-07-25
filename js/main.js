@@ -449,6 +449,19 @@
       animating = false;
     });
 
+    // Click a peeking side slide → slide it to the center. Runs before the
+    // document-level tap-to-play delegation, so a click on an off-center reel
+    // re-centers it instead of playing; the centered slide plays as normal.
+    track.addEventListener('click', e => {
+      const slide = e.target.closest('.reelousel__slide');
+      if (!slide) return;
+      const i = slides.indexOf(slide);
+      if (i === -1 || i === index) return; // centered slide → let it play
+      e.stopPropagation();
+      e.preventDefault();
+      step_(i - index);
+    });
+
     const prev = car.querySelector('.reelousel__nav--prev');
     const next = car.querySelector('.reelousel__nav--next');
     if (prev) prev.addEventListener('click', () => step_(-1));

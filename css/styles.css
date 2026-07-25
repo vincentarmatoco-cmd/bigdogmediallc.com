@@ -343,12 +343,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   width: clamp(200px, 66vw, 300px);
   transform: scale(0.84);
   opacity: 0.5;
+  cursor: pointer; /* side slides are clickable to bring to center */
   transition: transform 0.5s var(--ease-cine),
               opacity 0.5s var(--ease-cine);
 }
 .reelousel__slide.is-center {
   transform: scale(1);
   opacity: 1;
+  cursor: default;
 }
 .reelousel__slide .tile { height: 100%; }
 .reelousel__empty {
