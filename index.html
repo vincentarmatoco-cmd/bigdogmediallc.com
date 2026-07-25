@@ -19,7 +19,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,600;0,800;0,900;1,600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Instrument+Sans:wght@400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 
   <!-- Favicon / tab + home-screen icon: the BD mark -->
@@ -49,7 +49,7 @@
          Scroll drives a designed canvas sequence frame-by-frame (sticky stage). -->
     <section class="cine" data-cine id="hero">
       <div class="cine__stage">
-        <canvas class="cine__canvas" data-cine-canvas></canvas>
+        <canvas class="cine__canvas" data-cine-canvas aria-hidden="true"></canvas>
         <div class="cine__ui">
           <p class="eyebrow">Video &amp; social advertising studio</p>
           <span class="cine__hint" data-cine-hint>Scroll to roll the reel</span>
@@ -84,7 +84,17 @@
     <!-- ══════════ WORK SCENE · Food films ══════════ -->
     <section class="workscene" id="work">
       <div class="workscene__media" data-parallax="0.12">
-        <img src="portfolio/homepage/best_social_assets/_GTS3656.jpg" alt="Food film still — Big Dog Media" loading="lazy" onerror="this.style.display='none'">
+        <picture>
+          <source type="image/avif" sizes="100vw"
+                  srcset="portfolio/homepage/best_social_assets/_GTS3656-1280.avif 1280w,
+                          portfolio/homepage/best_social_assets/_GTS3656-1920.avif 1920w">
+          <source type="image/webp" sizes="100vw"
+                  srcset="portfolio/homepage/best_social_assets/_GTS3656-1280.webp 1280w,
+                          portfolio/homepage/best_social_assets/_GTS3656-1920.webp 1920w">
+          <img src="portfolio/homepage/best_social_assets/_GTS3656-1920.jpg"
+               width="1920" height="2880" alt="Food film still — Big Dog Media"
+               loading="lazy" decoding="async">
+        </picture>
       </div>
       <div class="workscene__scrim"></div>
       <div class="workscene__inner" data-stagger>
@@ -101,7 +111,17 @@
     <!-- ══════════ WORK SCENE · Food photography ══════════ -->
     <section class="workscene" id="stills">
       <div class="workscene__media" data-parallax="0.12">
-        <img src="portfolio/homepage/best_social_assets/_GTS3615.jpg" alt="Food photography — Big Dog Media" loading="lazy" onerror="this.style.display='none'">
+        <picture>
+          <source type="image/avif" sizes="100vw"
+                  srcset="portfolio/homepage/best_social_assets/_GTS3615-1280.avif 1280w,
+                          portfolio/homepage/best_social_assets/_GTS3615-1920.avif 1920w">
+          <source type="image/webp" sizes="100vw"
+                  srcset="portfolio/homepage/best_social_assets/_GTS3615-1280.webp 1280w,
+                          portfolio/homepage/best_social_assets/_GTS3615-1920.webp 1920w">
+          <img src="portfolio/homepage/best_social_assets/_GTS3615-1920.jpg"
+               width="1920" height="1280" alt="Food photography — Big Dog Media"
+               loading="lazy" decoding="async">
+        </picture>
       </div>
       <div class="workscene__scrim"></div>
       <div class="workscene__inner" data-stagger>
@@ -200,7 +220,8 @@
         <!-- Center-focused reel carousel — slides injected by js/main.js from
              portfolio/manifest.json (best_campaigns). Neighbors peek in from the
              sides; arrows loop infinitely. Tap a reel to play it in place. -->
-        <div class="reelousel" data-reel-carousel="best_campaigns" data-reveal>
+        <div class="reelousel" data-reel-carousel="best_campaigns" data-reveal
+             tabindex="0" role="group" aria-label="Campaign reels — use arrow keys to browse">
           <button class="reelousel__nav reelousel__nav--prev" type="button" aria-label="Previous reel"></button>
           <div class="reelousel__viewport">
             <div class="reelousel__track" data-reel-track>
@@ -292,7 +313,7 @@
         <figure class="duo__media" data-reveal>
           <div class="frame">
             <!-- Drop a founder photo at assets/vincent.jpg -->
-            <img src="portfolio/homepage/01.jpg" alt="Vincent Armato, founder of Big Dog Media" loading="lazy" onerror="this.classList.add('is-missing')">
+            <img src="portfolio/homepage/01.jpg" alt="Vincent Armato, founder of Big Dog Media" loading="lazy" decoding="async">
             <span class="meta">Portrait / Vincent Armato</span>
           </div>
         </figure>

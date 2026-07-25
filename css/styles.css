@@ -10,6 +10,7 @@
   --gold: #CF9A4A;
   --gold-ink: #B07F2F;
   --stone: #8F8B83;
+  --stone-on-bone: #6E6A62;   /* ~4.6:1 on --bone — AA-safe for muted captions */
   --body: #33302B;
   --line-dark: #23221E;
   --line-light: #D8D3C8;
@@ -72,16 +73,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   text-transform: uppercase;
   text-wrap: pretty;
 }
-.editorial {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(30px, 4.6vw, 68px);
-  line-height: 1.08;
-  text-wrap: pretty;
-}
-.editorial em { font-style: italic; color: var(--gold-ink); }
-.sec--ink .editorial em { color: var(--gold); }
-
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -128,14 +119,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .btn:hover { transform: translateY(-2px); }
 .btn--bone { background: var(--bone); color: var(--ink); }  /* on ink fields */
 .btn--ink { background: var(--ink); color: var(--bone); }    /* on bone & gold fields */
-.btn--ghost {
-  background: transparent;
-  border: 1px solid var(--line-dark);
-  color: var(--bone);
-}
-.sec--bone .btn--ghost { border-color: var(--line-light); color: var(--body); }
-.btn--ghost:hover { color: var(--gold); }
-.sec--bone .btn--ghost:hover { color: var(--gold-ink); }
 
 .textlink {
   font-family: var(--font-display);
@@ -193,24 +176,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .nav__link[aria-current="page"] { color: var(--gold); }
 .nav__cta { padding: 10px 16px; font-size: 11px; }
 
-/* ═══════════ HERO ═══════════ */
-.hero {
-  min-height: calc(100svh - 65px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: clamp(28px, 4vh, 44px);
-}
-.hero .display .accent { color: var(--gold); }
-.hero__foot {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  flex-wrap: wrap;
-}
-.hero__cta { display: flex; gap: 14px; flex-wrap: wrap; }
-
 /* Page hero (interior pages) */
 .page-head {
   display: flex;
@@ -226,36 +191,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   gap: 22px;
   margin-bottom: clamp(40px, 6vw, 72px);
 }
-
-/* ═══════════ SERVICE ROWS ═══════════ */
-.rows { border-top: 1px solid var(--line-dark); }
-.sec--bone .rows { border-top-color: var(--line-light); }
-.row {
-  display: grid;
-  grid-template-columns: 72px 1fr minmax(0, 46ch) auto;
-  gap: clamp(16px, 3vw, 48px);
-  align-items: center;
-  padding: clamp(26px, 4vw, 44px) 0;
-  border-bottom: 1px solid var(--line-dark);
-}
-.sec--bone .row { border-bottom-color: var(--line-light); }
-.row__num {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.2em;
-  color: var(--stone);
-}
-.row__name {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(22px, 3vw, 40px);
-  letter-spacing: -0.01em;
-  text-transform: uppercase;
-  line-height: 0.95;
-}
-.row__desc { color: var(--stone); font-size: 16px; }
-.row a.textlink { justify-self: end; }
 
 /* Deliverables list (services page) */
 .list { list-style: none; display: flex; flex-direction: column; }
@@ -284,11 +219,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .sec--bone .service-block__intro p { color: var(--body); }
 
 /* ═══════════ WORK TILES ═══════════ */
-.tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: clamp(18px, 2.5vw, 32px);
-}
 .tile {
   display: block;
   background: var(--ink);
@@ -407,15 +337,14 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .reelousel__track {
   display: flex;
   gap: clamp(16px, 3vw, 34px);
-  will-change: transform;
 }
 .reelousel__slide {
   flex: 0 0 auto;
   width: clamp(200px, 66vw, 300px);
   transform: scale(0.84);
   opacity: 0.5;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.5s var(--ease-cine),
+              opacity 0.5s var(--ease-cine);
 }
 .reelousel__slide.is-center {
   transform: scale(1);
@@ -487,6 +416,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   font-variant-numeric: tabular-nums;
 }
 .stats span { color: var(--stone); font-size: 15px; max-width: 22ch; }
+.sec--bone .stats span { color: var(--stone-on-bone); }
 
 .claims { list-style: none; display: flex; flex-direction: column; }
 .claims li {
@@ -499,6 +429,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   border-bottom: 1px solid var(--line-dark);
 }
 .claims li span { color: var(--stone); }
+.sec--bone .claims li span { color: var(--stone-on-bone); }
 
 /* ═══════════ TESTIMONIALS — auto-advancing carousel ═══════════
    One centered quote at a time; fades/slides between them. Without JS every
@@ -531,7 +462,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   align-items: center;
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.6s ease, transform 0.6s var(--ease-cine);
   pointer-events: none;
 }
 .js .tcarousel__slide.is-active {
@@ -752,18 +683,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .pill-opt input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
 .form__status { color: var(--gold); font-size: 15px; min-height: 1.5em; }
-
-.contact-direct { display: flex; flex-direction: column; gap: 16px; }
-.contact-direct a {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(19px, 2.4vw, 30px);
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  transition: color 0.25s ease-out;
-  width: fit-content;
-}
-.contact-direct a:hover { color: var(--gold); }
 
 /* ═══════════ FORM CONSENT LINE ═══════════ */
 .form__consent { font-size: 13px; color: var(--stone); max-width: 62ch; margin-top: -14px; }
@@ -1109,8 +1028,6 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* ═══════════ RESPONSIVE ═══════════ */
 @media (max-width: 900px) {
-  .row { grid-template-columns: 1fr; gap: 10px; }
-  .row a.textlink { justify-self: start; }
   .service-block { grid-template-columns: 1fr; }
   .duo { grid-template-columns: 1fr; }
   .duo__media { max-width: 420px; }

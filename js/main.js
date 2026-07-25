@@ -17,6 +17,16 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hasIO = 'IntersectionObserver' in window;
 
+  /* ───────── Broken-image fallbacks (delegated, capture-phase) ─────────
+     `error` doesn't bubble, so listen in capture. Keeps behaviour out of
+     inline onerror attrs (CSP-friendly). */
+  document.addEventListener('error', e => {
+    const t = e.target;
+    if (!(t instanceof HTMLImageElement)) return;
+    if (t.closest('.workscene__media')) t.style.display = 'none';
+    else if (t.closest('.duo__media')) t.classList.add('is-missing');
+  }, true);
+
   /* ───────── Reveals + stagger ───────── */
   const revealables = document.querySelectorAll('[data-reveal], [data-stagger]');
   if (prefersReduced || !hasIO) {
@@ -94,6 +104,7 @@
 
     let W = 0, H = 0, dpr = 1;
     let target = 0, current = 0, running = false, visible = false, fontsReady = false;
+    let vignette = null, lastW = -1;
 
     // Pre-rendered grain tile (drawn once, stamped cheaply each frame)
     const grain = document.createElement('canvas');
@@ -109,12 +120,20 @@
     const grainPattern = ctx.createPattern(grain, 'repeat');
 
     function resize() {
+      // Mobile address-bar show/hide fires resize on height only; skip the
+      // expensive backing-store realloc unless the width actually changed.
+      if (canvas.clientWidth === lastW) { render(current); return; }
+      lastW = canvas.clientWidth;
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       W = canvas.clientWidth;
       H = canvas.clientHeight;
       canvas.width = Math.round(W * dpr);
       canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Vignette only changes with size — build it once here, not every frame.
+      vignette = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.2, W / 2, H / 2, Math.max(W, H) * 0.75);
+      vignette.addColorStop(0, 'rgba(20,19,16,0)');
+      vignette.addColorStop(1, 'rgba(0,0,0,0.55)');
       render(current);
     }
 
@@ -159,12 +178,8 @@
       ctx.fillStyle = '#0A0A0A';
       ctx.fillRect(0, 0, W, H);
 
-      // Vignette
-      const vg = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.2, W / 2, H / 2, Math.max(W, H) * 0.75);
-      vg.addColorStop(0, 'rgba(20,19,16,0)');
-      vg.addColorStop(1, 'rgba(0,0,0,0.55)');
-      ctx.fillStyle = vg;
-      ctx.fillRect(0, 0, W, H);
+      // Vignette (prebuilt in resize — no per-frame gradient allocation)
+      if (vignette) { ctx.fillStyle = vignette; ctx.fillRect(0, 0, W, H); }
 
       // Type beats (crossfade by proximity)
       if (fontsReady) {
